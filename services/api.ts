@@ -13,7 +13,7 @@ export const TMDB_CONFIG = {
     query: string;
   }): Promise<Movie[]> => {
     const endpoint = query
-      ? `${TMDB_CONFIG.BASE_URL}/search/movie??include_adult=false&language=hi-IN&region=india&query=${encodeURIComponent(query)}`//encode to handle unexpected characters in query
+      ? `${TMDB_CONFIG.BASE_URL}/search/movie??include_adult=false&query=${encodeURIComponent(query)}`//encode to handle unexpected characters in query
       : `${TMDB_CONFIG.BASE_URL}/discover/movie?sort_by=popularity.desc`;
     
     const response = await fetch(endpoint, {
