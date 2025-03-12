@@ -1,5 +1,4 @@
 import { Account, Client, Databases, ID, Query } from "react-native-appwrite";
-import Snackbar from 'react-native-snackbar';
 
 const DATABASE_ID = process.env.EXPO_PUBLIC_APPWRITE_DATABASE_ID!;
 const COLLECTION_ID = process.env.EXPO_PUBLIC_APPWRITE_COLLECTION_ID!;
@@ -55,7 +54,7 @@ export const getCurrentUser = async()=>{
     return {user:res,success:true}
   }catch(error){
     console.log(error)
-    return {error:err.message}
+    return {error:error.message}
 
   }
 }
@@ -146,7 +145,7 @@ export const saveMovie = async(userId,movie)=>{
     }else{
       const userDoc = existingUser.documents[0]
       const savedMovies =   Array.isArray(userDoc.saved_movies) ? userDoc.saved_movies : [];
-      
+
       // Check if the movie already exists in the saved_movies array
       const movieExists = savedMovies.some((item) => {
         const parsedItem = JSON.parse(item);
