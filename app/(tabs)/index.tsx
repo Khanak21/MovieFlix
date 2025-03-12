@@ -7,7 +7,9 @@ import { useRouter } from "expo-router";
 import { fetchMovies } from "@/services/api";
 import useFetch from "@/services/useFetch";
 import MovieCard from "@/components/MovieCard";
+import TrendingCard from "@/components/TrendingCard";
 import { getTrendingMovies } from "@/services/appwrite";
+import React from "react";
 
 export default function Index() {
   const router = useRouter();
@@ -58,8 +60,7 @@ export default function Index() {
                     gap: 26,
                   }}
                   renderItem={({ item, index }) => (
-                    // <TrendingCard movie={item} index={index} />
-                    <Text className="text-white">{item.title}</Text>
+                    <TrendingCard movie={item} index={index} />
                   )}
                   keyExtractor={(item) => item.movie_id.toString()}
                   ItemSeparatorComponent={() => <View className="w-4" />}
