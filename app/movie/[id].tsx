@@ -135,7 +135,7 @@ const Details = () => {
 
       <TouchableOpacity
         className="absolute bottom-14 left-0 right-0 mx-5 bg-accent rounded-lg py-3.5 flex flex-row items-center justify-center z-50"
-        onPress={router.back()}
+        onPress={()=>router.back()}
       >
         <Image
           source={icons.arrow}

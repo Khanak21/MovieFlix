@@ -4,7 +4,7 @@ import Snackbar from 'react-native-snackbar';
 const DATABASE_ID = process.env.EXPO_PUBLIC_APPWRITE_DATABASE_ID!;
 const COLLECTION_ID = process.env.EXPO_PUBLIC_APPWRITE_COLLECTION_ID!;
 const SAVED_COLLECTION_ID = process.env.EXPO_PUBLIC_APPWRITE_SAVED_COLLECTION_ID!;
-
+//give permissions in appwrite collection -> any one can CRUD
 const client = new Client()
   .setEndpoint("https://cloud.appwrite.io/v1")
   .setProject(process.env.EXPO_PUBLIC_APPWRITE_PROJECT_ID!);
@@ -135,7 +135,7 @@ export const saveMovie = async(userId,movie)=>{
     if(existingUser.documents.length==0){
       const newDoc = await database.createDocument(
         DATABASE_ID,
-        COLLECTION_ID,
+        SAVED_COLLECTION_ID,
         ID.unique(),
         {
             user_id: userId,
@@ -146,6 +146,17 @@ export const saveMovie = async(userId,movie)=>{
     }else{
       const userDoc = existingUser.documents[0]
       const savedMovies =   Array.isArray(userDoc.saved_movies) ? userDoc.saved_movies : [];
+      
+      // Check if the movie already exists in the saved_movies array
+      const movieExists = savedMovies.some((item) => {
+        const parsedItem = JSON.parse(item);
+        return parsedItem.movie_id === movie.id;
+      });
+
+      if (movieExists) {
+        return { success: false, message: "Movie already saved" };
+      }
+
       savedMovies.push(movieData)
       const newDoc = await database.updateDocument(DATABASE_ID,SAVED_COLLECTION_ID,userDoc.$id,{
         saved_movies:savedMovies
@@ -159,5 +170,24 @@ export const saveMovie = async(userId,movie)=>{
   }
 }
 
+export const fetchSavedMovies = async(userId)=>{
+  try{
+    const existingUser = await database.listDocuments(DATABASE_ID,SAVED_COLLECTION_ID,[
+      Query.equal("user_id",userId)
+    ])
+    if (existingUser.documents.length === 0) return [];
+
+    // Access the saved_movies array
+    let savedMovies = existingUser.documents[0]?.saved_movies || [];
+    console.log(savedMovies)
+
+    // Parse each movie string into an object
+    savedMovies = savedMovies.map((item) => JSON.parse(item));
+
+    return savedMovies;
+  }catch(err){
+    console.log(err)
+  }
+}
 
 
