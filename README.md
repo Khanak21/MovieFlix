@@ -6,7 +6,7 @@ An app that lets you search for your favourite movies, view their details and sa
 - Expo
 - Styling: NativeWind
 - Backend: Appwrite
-- Movie API: TMDB (TMDB's Website is not accessible in India, but will work if DNS provider is set to 1.1.1.1 on Chrome or 1dot1dot1dot1.cloudflare-dns.com)
+- Movie API: TMDB (TMDB's Website is not accessible in India, but will work if DNS provider is set to 1.1.1.1 on Chrome and 1dot1dot1dot1.cloudflare-dns.com on phone)
 
 ## Environment variables used
 ```
